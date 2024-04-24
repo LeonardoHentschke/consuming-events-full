@@ -21,40 +21,51 @@ app.get('/consuming/events', async (_, reply) => {
         const { data } = await axios.get('http://localhost:3333/events', authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao consumir o endpoint de usuários');
+        errorHandler(reply, 'Erro ao consumir o endpoint de eventos');
+    }
+});
+
+app.get('/consuming/events/:eventId', async (req, reply) => {
+    try {
+        // @ts-ignore
+        const eventId = req.params.eventId;
+        const { data } = await axios.get(`http://localhost:3333/events/${eventId}`, authHeader());
+        reply.send(data);
+    } catch (error) {
+        errorHandler(reply, 'Erro ao deletar evento');
     }
 });
 
 app.post('/consuming/events', async (req, reply) => {
     try {
         // @ts-ignore
-        const { name, email, password } = req.body;
-        const { data } = await axios.post('http://localhost:3333/events', { name, email, password }, authHeader());
+        const { title, details, maximumAttendees, dateTime } = req.body;
+        const { data } = await axios.post('http://localhost:3333/events', { title, details, maximumAttendees, dateTime }, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao criar usuário');
+        errorHandler(reply, 'Erro ao criar evento');
     }
 });
 
 app.put('/consuming/events', async (req, reply) => {
     try {
         // @ts-ignore
-        const { name, email, password } = req.body;
-        const { data } = await axios.put('http://localhost:3333/events', { name, email, password }, authHeader());
+        const { title, details, maximumAttendees, dateTime } = req.body;
+        const { data } = await axios.put('http://localhost:3333/events', { title, details, maximumAttendees, dateTime }, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao criar usuário');
+        errorHandler(reply, 'Erro ao editar evento');
     }
 });
 
 app.delete('/consuming/events/:eventId', async (req, reply) => {
     try {
         // @ts-ignore
-        const userId = req.params.userId;
-        const { data } = await axios.delete(`http://localhost:3333/events/${userId}`, authHeader());
+        const eventId = req.params.eventId;
+        const { data } = await axios.delete(`http://localhost:3333/events/${eventId}`, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao deletar usuário');
+        errorHandler(reply, 'Erro ao deletar evento');
     }
 });
 

@@ -43,7 +43,7 @@ app.put('/consuming/users', async (req, reply) => {
         const { data } = await axios.put('http://localhost:3333/users', { name, email, password }, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao criar usuário');
+        errorHandler(reply, 'Erro ao editar usuário');
     }
 });
 
