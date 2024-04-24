@@ -21,7 +21,8 @@ app.get('/consuming/subscriptions/:userId', async (req, reply) => {
         const {data} = await axios.get(`http://localhost:3333/subscriptions/${userId}`, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao consumir o endpoint /consuming/subscriptions/:userId');
+        // @ts-ignore
+        errorHandler(reply, error.response.data);
     }
 });
 
@@ -29,10 +30,11 @@ app.post('/consuming/subscribe', async (req, reply) => {
     try {
         // @ts-ignore
         const {userId, eventId} = req.body;
-        const {data} = await axios.post('http://localhost:3333/subscriptions', {userId, eventId}, authHeader());
+        const {data} = await axios.post('http://localhost:3333/subscribe', {userId, eventId}, authHeader());
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao consumir o endpoint /consuming/subscribe');
+        // @ts-ignore
+        errorHandler(reply, error.response.data);
     }
 });
 
@@ -42,7 +44,7 @@ app.delete('/consuming/subscription', async (req, reply) => {
         const { userId, eventId } = req.body;
         const config = {
             ...authHeader(),
-            params: {
+            data: {
                 userId,
                 eventId
             }
@@ -50,7 +52,20 @@ app.delete('/consuming/subscription', async (req, reply) => {
         const { data } = await axios.delete('http://localhost:3333/subscription', config);
         reply.send(data);
     } catch (error) {
-        errorHandler(reply, 'Erro ao consumir o endpoint /consuming/subscription');
+        // @ts-ignore
+        errorHandler(reply, error.response.data);
+    }
+});
+
+app.post('/consuming/checkin', async (req, reply) => {
+    try {
+        // @ts-ignore
+        const {userId, eventId} = req.body;
+        const {data} = await axios.post('http://localhost:3333/checkin', {userId, eventId}, authHeader());
+        reply.send(data);
+    } catch (error) {
+        // @ts-ignore
+        errorHandler(reply, error.response.data);
     }
 });
 
